@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="/css/base.css">
+  <script src="./js/ajax.js"></script>
+  <script src="./js/socket.io.js"></script>
+</head>
+<body>
+  <h3>用户端</h3>
+  <img src="/upload/user/head.png" alt="">
+  <script>
+    // https://douban.uieee.com/v2/movie/in_theaters?start=0&count=10
+    //http://v.juhe.cn/toutiao/index?type=&key=55f8053eba54dab5a301a00f45523164
+
+    ajax({
+      // url:'https://douban.uieee.com/v2/movie/in_theaters',
+      // url:'http://v.juhe.cn/toutiao/index',
+      url:'http://localhost:3001/proxy/juhe',
+      data:{
+        // key:'55f8053eba54dab5a301a00f45523164'
+        // start:0,
+        // count:5
+      },
+      success:function(res){
+        console.log('客户端douban-juhe',res)
+      }
+    })
+
+    ajax({
+      url:'http://localhost:3001/api/home',
+      data:{
+        _page:1,
+        _limit:5
+      },
+      success:function(res){
+        console.log('客户端3001',res)
+      }
+    })
+  </script>
+
+  <!-- 订阅 -->
+  <script>
+    var socket = io('http://localhost:3001/');//链接服务端
+
+    //客户端订阅
+    socket.on('mess_type',(data)=>{
+      console.log('首页_客户端收到',data)
+      //dom 操作
+    })
+    
+  </script>
+</body>
+</html>
